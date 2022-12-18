@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "visonBoxGame", "visonBoxGame\visonBoxGame.csproj", "{5285BF0C-2AC9-4731-83B7-14FF6ACA328F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisionBoxGame.Api.Tests", "VisionBoxGame.Api.Tests\VisionBoxGame.Api.Tests.csproj", "{A1B6F485-13E2-4C9A-BF47-BFE116208607}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5285BF0C-2AC9-4731-83B7-14FF6ACA328F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5285BF0C-2AC9-4731-83B7-14FF6ACA328F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5285BF0C-2AC9-4731-83B7-14FF6ACA328F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5285BF0C-2AC9-4731-83B7-14FF6ACA328F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B6F485-13E2-4C9A-BF47-BFE116208607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B6F485-13E2-4C9A-BF47-BFE116208607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B6F485-13E2-4C9A-BF47-BFE116208607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B6F485-13E2-4C9A-BF47-BFE116208607}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E911439-EC6F-47E2-AD54-55A6FB7E6A29}
+	EndGlobalSection
+EndGlobal
