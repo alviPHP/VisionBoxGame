@@ -4,15 +4,7 @@
     {
         Created,
         Started,
-        RoundCompleted,
+        RequestGuess,
         Ended,
-    }
-
-    public enum PlayerState
-    {
-        Joined,
-        Waiting,
-        Playing,
-        Free
     }
 }

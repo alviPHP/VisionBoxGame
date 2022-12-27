@@ -12,53 +12,44 @@ namespace visonBoxGame.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly ICardService _cardService;
+        private readonly IDeckService _deckService;
+        private readonly IGameService _gameService;
 
-        public CardController(ICardService cardService)
+        public CardController(IDeckService deckService
+            , IGameService gameService)
         {
-            _cardService = cardService;
+            _deckService = deckService;
+            _gameService = gameService;
         }
-
+        
         /// <summary>Get deck of available cards.</summary>
         /// <response code="200">
         /// Deck of cards.
         /// </response>
         [HttpGet("GetCardsDeck")]
-        public async Task<IActionResult> GetCardsDeck(string gameId)
+        public IActionResult GetCardsDeck(string gameId)
         {
             try
             {
+                #region Validate
+
+                //Check if Game Id is in wrong format
                 if (!Guid.TryParse(gameId, out var _))
                     return BadRequest("Game Id is not given in correct format.");
 
+                #endregion
+
+                #region Function
+
                 Guid _gameId = Guid.Parse(gameId);
 
-                var result = await _cardService.GetDeck(_gameId);
+                //Get Deck of cards
+                var result = _deckService.GetDeck(_gameId);
+                if (result == null || result.Count == 0)
+                    return NotFound("Recored not found.");
                 return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
-        /// <summary>Guess next card add 'H' for High or 'L' for Low.</summary>
-        /// <response code="200">
-        /// Confirms the card is guess. see the result in score 'GetResult' method.
-        /// </response>
-        [HttpGet("GuessNextCard")]
-        public async Task<IActionResult> GuessNextCard([FromQuery] GuessCardModel model)
-        {
-            try
-            {
-                if (!Guid.TryParse(model.PlayerId, out var _))
-                    return BadRequest("Player Id is not given in correct format.");
-
-                if (!Guid.TryParse(model.GameId, out var _))
-                    return BadRequest("Game Id is not given in correct format.");
-
-                var result = await _cardService.GuessNextCard(model);
-                return Ok(result);
+                #endregion
             }
             catch (Exception ex)
             {

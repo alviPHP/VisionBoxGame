@@ -1,53 +1,46 @@
-﻿using visonBoxGame.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using visonBoxGame.MockDB;
 
 namespace visonBoxGame.Services
 {
     public interface IPlayerService
     {
-       Task<string> AddPlayer(string playerName);        
+        PlayerModel GetPlayer(Guid playerId, Guid gameId);
+        Guid AddPlayer(string name, Guid gameId);
+        bool NameExists(string name, Guid gameId);
     }
     public class PlayerService : IPlayerService
     {
         private readonly IDictionary<Guid, GameModel> _games;
-        private readonly IDictionary<Guid, PlayerModel> _players;
-        public PlayerService(IDictionary<Guid, GameModel> games, 
-                             IDictionary<Guid, PlayerModel> players)
+        public PlayerService(IDictionary<Guid, GameModel> games)
         {
             _games = games;
-            _players = players;
         }
-        public async Task<string> AddPlayer(string playerName)
-        {            
-            var playerId = Guid.NewGuid();
-
-            // Add Player
-            await Task.Run(() =>
+        public Guid AddPlayer(string name, Guid gameId)
+        {
+            var game = _games[gameId];
+            var player = new PlayerModel
             {
-                //Check if player name already exists in the game that are need to join
-                foreach (var game in _games.Values)
-                {
-                    if (game.State == GameState.Created)
-                    {
-                        var result = _players.Values.Where(pl => pl.GameId == game.Id && pl.Name.ToUpper() == playerName.ToUpper()).Any();
+                Id = Guid.NewGuid(),
+                Name = name
+            };
+            game.Players.AddLast(player);
+            return player.Id;
+        }
+        public PlayerModel GetPlayer(Guid playerId, Guid gameId)
+        {
+            var game = _games[gameId];
+            var player = game.Players.Where(pl=> pl.Id == playerId).Single();
+            return player;
+        }
 
-                        if (result)
-                            throw new ApplicationException($"Player name {playerName} already exists.");
-                    }
-                }
-                
-                _players.Add(playerId, new PlayerModel
-                {
-                    Id = playerId,
-                    Name = playerName,
-                    State = PlayerState.Free
-                });
-            });
-
-            return playerId.ToString();
+        public bool NameExists(string playerName, Guid gameId)
+        {
+            var game = _games[gameId];
+            var result = game.Players.Where(pl => pl.Name.ToUpper() == playerName.ToUpper()).Any();
+            return result;               
         }
     }
 }

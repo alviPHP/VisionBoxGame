@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using visonBoxGame.MockDB;
 using visonBoxGame.Models;
 using visonBoxGame.Services;
 
@@ -51,8 +52,7 @@ namespace visonBoxGame
             }));
 
             services.AddSingleton<IDictionary<Guid, GameModel>>(new Dictionary<Guid, GameModel>());
-            services.AddSingleton<IDictionary<Guid, PlayerModel>>(new Dictionary<Guid, PlayerModel>());
-            services.AddSingleton<IDictionary<Guid, DeckModel>>(new Dictionary<Guid, DeckModel>());
+            services.AddSingleton<IDictionary<Guid, StateMachine>>(new Dictionary<Guid, StateMachine>());
 
             IserviceCollectionExtension.AddDataServices(services);
         }

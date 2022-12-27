@@ -13,62 +13,51 @@ namespace visonBoxGame.Controllers
     public class ScoreController : ControllerBase
     {
         private readonly IScoreService _scoreService;
+        private readonly IGameService _gameService;
 
-        public ScoreController(IScoreService scoreService)
+        public ScoreController(IScoreService scoreService
+            , IGameService gameService)
         {
             _scoreService = scoreService;
+            _gameService = gameService;
         }
 
-        /// <summary>Get score table when a round completed.</summary>
+        /// <summary>Get score table when a round completed or the game ended.</summary>
         /// <response code="200">
         /// Score table. 
         /// Player Id.
         /// Score of Player.
         /// </response>
         [HttpGet("GetScoreBoard")]
-        public async Task<IActionResult> GetScoreBoard(string gameId)
+        public IActionResult GetScoreBoard(string gameId)
         {
             try
             {
+                #region Validate
+
+                //Check if Game Id is in wrong format
                 if (!Guid.TryParse(gameId, out var _))
                     return BadRequest("Game Id is not given in correct format.");
 
-                Guid _playerId = Guid.Parse(gameId);
+                #endregion
 
-                var result = await _scoreService.GetScoreTable(_playerId);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+                #region Fucntion
 
-        /// <summary>Get the outcome after each turn.</summary>
-        /// <response code="200">
-        ///  Next Player Id.
-        ///  Next PlayerName.
-        ///  Last Card Played.
-        ///  Result.
-        /// </response>
-        
-        [HttpGet("GetResult")]
-        public async Task<IActionResult> GetResult(string gameId)
-        {
-            try
-            {
-                if (!Guid.TryParse(gameId, out var _))
-                    return BadRequest("Game Id is not given in correct format.");
-
+                //Check if game Id exixts.
                 Guid _gameId = Guid.Parse(gameId);
 
-                var result =await _scoreService.GetResult(_gameId);
+                //Get score table.
+                var result = _scoreService.GetScoreTable(_gameId);
+                if (result == null || result.Count == 0)
+                    return NotFound("Recored not found.");
                 return Ok(result);
+
+                #endregion
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }        
     }
 }

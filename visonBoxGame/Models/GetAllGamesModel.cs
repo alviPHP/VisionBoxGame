@@ -1,4 +1,4 @@
-﻿namespace visonBoxGame.Models.Response
+﻿namespace visonBoxGame.Models
 {
     public class GetAllGamesModel
     {

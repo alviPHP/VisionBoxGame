@@ -11,6 +11,7 @@ namespace visonBoxGame.Models
         public string PlayerId { get; set; }
 
         [Required]
+        [RegularExpression(@"[H|L]")]
         public string Guess { get; set; }
 
     }

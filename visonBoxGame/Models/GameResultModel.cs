@@ -7,6 +7,8 @@ namespace visonBoxGame.Models
         public string Result { get; set; }
         public string LastCardPlay { get; set; }
         public Guid? NextPlayerId { get; set; }
-        public string NextPlayerName { get; set; }        
+        public string NextPlayerName { get; set; }   
+        public bool GameEnded { get; set; }
+        public bool RoundComplete { get; set; }
     }
 }

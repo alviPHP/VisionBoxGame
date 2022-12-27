@@ -10,12 +10,6 @@
             Deck of cards.
             </response>
         </member>
-        <member name="M:visonBoxGame.Controllers.CardController.GuessNextCard(visonBoxGame.Models.GuessCardModel)">
-            <summary>Guess next card add 'H' for High or 'L' for Low.</summary>
-            <response code="200">
-            Confirms the card is guess. see the result in score 'GetResult' method.
-            </response>
-        </member>
         <member name="M:visonBoxGame.Controllers.GameController.Get">
             <summary>Get all available games that needs start.</summary>
             <response code="200">
@@ -29,7 +23,7 @@
             player Id.
             </response>
         </member>
-        <member name="M:visonBoxGame.Controllers.GameController.JoinGame(visonBoxGame.Models.GameIdModel)">
+        <member name="M:visonBoxGame.Controllers.GameController.JoinGame(visonBoxGame.Models.GameJoinModel)">
             <summary>Join game (a player can participate only one game at a moment).</summary>
             <response code="200">
             Confirms player joins.
@@ -41,28 +35,48 @@
             Confirm player started the game.
             </response>
         </member>
-        <member name="M:visonBoxGame.Controllers.PlayerController.AddPlayer(System.String)">
-            <summary>Add a player.</summary>
+        <member name="M:visonBoxGame.Controllers.GameController.GuessNextCard(visonBoxGame.Models.GuessCardModel)">
+            <summary>Guess next card add 'H' for High or 'L' for Low.</summary>
             <response code="200">
-            Player Id.
+            Confirms the card is guess. see the result in score 'GetResult' method.
             </response>
         </member>
-        <member name="M:visonBoxGame.Controllers.ScoreController.GetScoreBoard(System.String)">
-            <summary>Get score table when a round completed.</summary>
-            <response code="200">
-            Score table. 
-            Player Id.
-            Score of Player.
-            </response>
-        </member>
-        <member name="M:visonBoxGame.Controllers.ScoreController.GetResult(System.String)">
-            <summary>Get the outcome after each turn.</summary>
+        <member name="M:visonBoxGame.Controllers.GameController.NotifyResult(System.String)">
+            <summary>Notify the outcome after each turn.</summary>
             <response code="200">
              Next Player Id.
              Next PlayerName.
              Last Card Played.
              Result.
             </response>
+        </member>
+        <member name="M:visonBoxGame.Controllers.ScoreController.GetScoreBoard(System.String)">
+            <summary>Get score table when a round completed or the game ended.</summary>
+            <response code="200">
+            Score table. 
+            Player Id.
+            Score of Player.
+            </response>
+        </member>
+        <member name="T:visonBoxGame.FiniteStateMachine.EndGameState">
+            <summary>
+            A 'EndGameState' class
+            </summary>
+        </member>
+        <member name="T:visonBoxGame.FiniteStateMachine.RequestGuessState">
+            <summary>
+            A 'RequestGuessState' class
+            </summary>
+        </member>
+        <member name="T:visonBoxGame.FiniteStateMachine.StartGameState">
+            <summary>
+            A 'StartGameState' class
+            </summary>
+        </member>
+        <member name="T:visonBoxGame.FiniteStateMachine.State">
+            <summary>
+            The 'State' abstract class
+            </summary>
         </member>
     </members>
 </doc>

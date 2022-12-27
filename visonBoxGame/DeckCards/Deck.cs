@@ -5,8 +5,9 @@ namespace visonBoxGame.DeckCards
 {
     public static class Deck
     {
-        public static void FillDeck(ref List<Card> deck)
+        public static void FillDeck(out List<Card> deck)
         {
+            deck  = new List<Card>();
             foreach (string suit in Card.SuitsArray)
             {
                 for (int value = 2; value <= 14; value++)
