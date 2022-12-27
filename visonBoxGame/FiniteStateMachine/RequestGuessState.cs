@@ -17,28 +17,21 @@ namespace visonBoxGame.FiniteStateMachine
 
             //Generate Random Card
             var lstCard = game.Cards;
-            
-            for (int i = 0; i < lstCard.Count; i++)
-                Deck.GetRandomCard(ref lstCard);
-
             var card = Deck.GetRandomCard(ref lstCard);
 
             //Set card values
             game.LastCardValue = card.Value;
             game.LastCardPlay = card.Name;
 
-            string outcome = string.Empty;
             //Increase Score
             if (GetOutCome(player.Guess, card.Value, game.LastCardValue))
             {
                 player.Score++;
-                outcome = Constants.InCorrect;
+                game.Result = Constants.Correct;
             }
             else
-                outcome = Constants.InCorrect; 
+                game.Result = Constants.InCorrect; 
 
-            //Set outcomes for game                
-            game.Result = outcome;
             //Set Turn Count
             game.TurnCount++;
 
@@ -46,9 +39,8 @@ namespace visonBoxGame.FiniteStateMachine
             if (!game.IsGameEnded)
             {
                 //Get Next player 
-                var currentNode = game.Players.Find(player);
-                var nextPlyerNode = currentNode.NextOrFirst();
-                game.NextPlayer = nextPlyerNode.Value;
+                game.NextPlayer = game.Players.Find(player)
+                                      .NextOrFirst().Value;
 
                 game.State = GameState.RequestGuess;
                 context.State = new RequestGuessState();

@@ -22,9 +22,8 @@ namespace visonBoxGame.FiniteStateMachine
             game.Result = Constants.GameStarted;
 
             //Get Next player 
-            var currentNode = game.Players.Find(player);
-            var nextPlyerNode = currentNode.NextOrFirst();
-            game.NextPlayer = nextPlyerNode.Value;
+            game.NextPlayer = game.Players.Find(player)
+                                  .NextOrFirst().Value;
 
             //Set game state.
             game.State = GameState.Started;
