@@ -20,13 +20,17 @@ namespace visonBoxGame.Services
         }
         public void AddNewDeck(Guid gameId)
         {
-            var game = _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
+            var game = GetGame(gameId);
             Deck.FillDeck(out var deck);
             game.Cards = deck;
         }
         public List<Card> GetDeck(Guid gameId)
         {
-            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single().Cards;
+            return GetGame(gameId).Cards;
+        }
+        private GameModel GetGame(Guid gameId)
+        {
+            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
         }
     }
 }
