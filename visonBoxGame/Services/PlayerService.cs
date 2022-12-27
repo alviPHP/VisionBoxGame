@@ -20,7 +20,7 @@ namespace visonBoxGame.Services
         }
         public Guid AddPlayer(string name, Guid gameId)
         {
-            var game = _games[gameId];
+            GameModel game = GetGame(gameId);
             var player = new PlayerModel
             {
                 Id = Guid.NewGuid(),
@@ -31,16 +31,17 @@ namespace visonBoxGame.Services
         }
         public PlayerModel GetPlayer(Guid playerId, Guid gameId)
         {
-            var game = _games[gameId];
-            var player = game.Players.Where(pl=> pl.Id == playerId).Single();
-            return player;
+            return GetGame(gameId).Players.Where(pl=> pl.Id == playerId).Single();
         }
 
         public bool NameExists(string playerName, Guid gameId)
         {
-            var game = _games[gameId];
-            var result = game.Players.Where(pl => pl.Name.ToUpper() == playerName.ToUpper()).Any();
-            return result;               
+            return GetGame(gameId).Players.Where(pl => pl.Name.ToUpper() == playerName.ToUpper()).Any();
+                          
+        }
+        private GameModel GetGame(Guid gameId)
+        {
+            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
         }
     }
 }

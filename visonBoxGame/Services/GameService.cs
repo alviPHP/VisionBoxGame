@@ -36,11 +36,11 @@ namespace visonBoxGame.Services
         }
         public GameModel GetGameById(Guid id)
         {
-            return _games.Values.Where(gm=> gm.Id==id && gm.State == GameState.Created).Single();
+            return _games.Values.AsParallel().Where(gm=> gm.Id==id && gm.State == GameState.Created).Single();
         }
         public List<GetAllGamesModel> GetGames()
         {
-            var result = from game in _games.Values
+            var result = from game in _games.Values.AsParallel()
                          where game.State == GameState.Created
                          select new GetAllGamesModel
                          {
@@ -51,7 +51,7 @@ namespace visonBoxGame.Services
         }
         public GameResultModel GetResult(Guid gameId)
         {
-            var game = _games[gameId];
+            var game = _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
             var model = new GameResultModel();
             model.LastCardPlay = game.LastCardPlay;
             if(game.NextPlayer != null)
@@ -75,7 +75,7 @@ namespace visonBoxGame.Services
 
         public bool Validate(Guid gameId)
         {
-            var result = _games.Values.Where(gm => gm.Id == gameId
+            var result = _games.Values.AsParallel().Where(gm => gm.Id == gameId
                                             && !(gm.State == GameState.Created || gm.State == GameState.Ended)).Any();
             return result;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using visonBoxGame.DeckCards;
 using visonBoxGame.MockDB;
 
@@ -19,16 +20,13 @@ namespace visonBoxGame.Services
         }
         public void AddNewDeck(Guid gameId)
         {
-            var game = _games[gameId];
+            var game = _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
             Deck.FillDeck(out var deck);
-            game.Cards= deck;
+            game.Cards = deck;
         }
         public List<Card> GetDeck(Guid gameId)
         {
-            if(!_games.ContainsKey(gameId))
-                return null;
-            var game = _games[gameId];
-            return game.Cards;
+            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single().Cards;
         }
     }
 }

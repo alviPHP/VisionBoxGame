@@ -20,13 +20,13 @@ namespace visonBoxGame.Services
         }
         public List<ScoreModel> GetScoreTable(Guid gameId)
         {
-            var game = _games[gameId];
+            var game = GetGame(gameId);
             List<ScoreModel> lstScoreTable = null;
 
             if (game.IsRoundComplete || game.State==GameState.Ended)
             {
                 lstScoreTable = new List<ScoreModel>();
-                foreach (var player in game.Players)
+                foreach (var player in game.Players.AsParallel())
                 {
                     lstScoreTable.Add(new ScoreModel
                     {
@@ -36,6 +36,10 @@ namespace visonBoxGame.Services
                 }
             }
             return lstScoreTable;
+        }
+        private GameModel GetGame(Guid gameId)
+        {
+            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
         }
     }
 }
