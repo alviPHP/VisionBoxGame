@@ -42,7 +42,7 @@ namespace visonBoxGame.Controllers
             try
             {
                 var result = _gameService.GetGames();
-                if (result.Any())
+                if (!result.Any())
                     return NotFound("List of games not found.");
                 return Ok(result);
             }

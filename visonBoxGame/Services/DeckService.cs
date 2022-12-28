@@ -13,8 +13,8 @@ namespace visonBoxGame.Services
     }
     public class DeckService : IDeckService
     {
-        private readonly IDictionary<Guid, GameModel> _games;
-        public DeckService(IDictionary<Guid, GameModel> games)
+        private readonly IList<GameModel> _games;
+        public DeckService(IList<GameModel> games)
         {
             _games = games;
         }
@@ -30,7 +30,7 @@ namespace visonBoxGame.Services
         }
         private GameModel GetGame(Guid gameId)
         {
-            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
+            return _games.AsParallel().Where(gm => gm.Id == gameId).Single();
         }
     }
 }

@@ -16,10 +16,10 @@ namespace visonBoxGame.Services
     public class StateMachineService : IStateMachineService
     {
         
-        public readonly IDictionary<Guid, StateMachine> _stateMachines;
-        public readonly IDictionary<Guid, GameModel> _games;
-        public StateMachineService(IDictionary<Guid, StateMachine> stateMachine,
-                                   IDictionary<Guid, GameModel> games)
+        public readonly IList<StateMachine> _stateMachines;
+        public readonly IList<GameModel> _games;
+        public StateMachineService(IList<StateMachine> stateMachine,
+                                   IList<GameModel> games)
         {
             _stateMachines = stateMachine;
             _games = games;
@@ -27,7 +27,7 @@ namespace visonBoxGame.Services
         public void Create(Guid gameId)
         {
             var game = GetGame(gameId);
-            _stateMachines.Add(game.Id, new StateMachine(new StartGameState(),game));
+            _stateMachines.Add(new StateMachine(new StartGameState(),game));
         }
         public void PlayTurn(Guid gameId,PlayerModel player)
         {
@@ -38,11 +38,11 @@ namespace visonBoxGame.Services
 
         private GameModel GetGame(Guid gameId)
         {
-            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
+            return _games.AsParallel().Where(gm => gm.Id == gameId).Single();
         }
         private StateMachine GetStateMachine(Guid gameId)
         {
-            return _stateMachines.Values.AsParallel().Where(stmac => stmac.Game.Id == gameId).Single();
+            return _stateMachines.AsParallel().Where(stmac => stmac.Game.Id == gameId).Single();
         }
     }
 }

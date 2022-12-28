@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using visonBoxGame.Models;
 using visonBoxGame.Services;
@@ -45,7 +46,7 @@ namespace visonBoxGame.Controllers
 
                 //Get Deck of cards
                 var result = _deckService.GetDeck(_gameId);
-                if (result == null || result.Count == 0)
+                if (!result.Any())
                     return NotFound("Recored not found.");
                 return Ok(result);
 

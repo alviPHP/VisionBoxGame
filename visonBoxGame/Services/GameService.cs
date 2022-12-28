@@ -18,8 +18,8 @@ namespace visonBoxGame.Services
     }
     public class GameService : IGameService
     {
-        private readonly IDictionary<Guid, GameModel> _games;
-        public GameService(IDictionary<Guid, GameModel> games)
+        private readonly IList<GameModel> _games;
+        public GameService(IList<GameModel> games)
         {
             _games = games;
         }
@@ -31,16 +31,16 @@ namespace visonBoxGame.Services
                 Title = model.Title,
                 State = GameState.Created,
             };
-            _games.Add(game.Id, game);
+            _games.Add(game);
             return game;
         }
         public GameModel GetGameById(Guid id)
         {
-            return _games.Values.AsParallel().Where(gm=> gm.Id==id && gm.State == GameState.Created).Single();
+            return _games.AsParallel().Where(gm=> gm.Id==id && gm.State == GameState.Created).Single();
         }
         public List<GetAllGamesModel> GetGames()
         {
-            var result = from game in _games.Values.AsParallel()
+            var result = from game in _games.AsParallel()
                          where game.State == GameState.Created
                          select new GetAllGamesModel
                          {
@@ -51,7 +51,7 @@ namespace visonBoxGame.Services
         }
         public GameResultModel GetResult(Guid gameId)
         {
-            var game = _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
+            var game = _games.AsParallel().Where(gm => gm.Id == gameId).Single();
             var model = new GameResultModel();
             model.LastCardPlay = game.LastCardPlay;
             if(game.NextPlayer != null)
@@ -75,7 +75,7 @@ namespace visonBoxGame.Services
 
         public bool Validate(Guid gameId)
         {
-            var result = _games.Values.AsParallel().Where(gm => gm.Id == gameId
+            var result = _games.AsParallel().Where(gm => gm.Id == gameId
                                             && !(gm.State == GameState.Created || gm.State == GameState.Ended)).Any();
             return result;
         }

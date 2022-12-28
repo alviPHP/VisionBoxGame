@@ -13,8 +13,8 @@ namespace visonBoxGame.Services
     }
     public class ScoreService : IScoreService
     {   
-        private readonly IDictionary<Guid, GameModel> _games;
-        public ScoreService(IDictionary<Guid, GameModel> games)
+        private readonly IList<GameModel> _games;
+        public ScoreService(IList<GameModel> games)
         {
             _games = games;
         }
@@ -26,7 +26,7 @@ namespace visonBoxGame.Services
             if (game.IsRoundComplete || game.State==GameState.Ended)
             {
                 lstScoreTable = new List<ScoreModel>();
-                foreach (var player in game.Players.AsParallel())
+                foreach (var player in game.Players)
                 {
                     lstScoreTable.Add(new ScoreModel
                     {
@@ -39,7 +39,7 @@ namespace visonBoxGame.Services
         }
         private GameModel GetGame(Guid gameId)
         {
-            return _games.Values.AsParallel().Where(gm => gm.Id == gameId).Single();
+            return _games.AsParallel().Where(gm => gm.Id == gameId).Single();
         }
     }
 }

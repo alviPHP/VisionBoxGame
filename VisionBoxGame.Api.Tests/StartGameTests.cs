@@ -37,40 +37,25 @@ namespace VisionBoxGame.Api.Tests
                 gameIdModel = await postCreateGameResponse.Content.ReadAsAsync<GameIdModel>();
             }
 
-            //Add Player.
-
-            string playerName = "David Jones";
-            string playerId = String.Empty;
-            using (var postAddPlayerResponse = await _client.PostAsJsonAsync($"/api/Player/AddPlayer", playerName))
-            {
-                Assert.True(postAddPlayerResponse.IsSuccessStatusCode);
-                playerId = await postAddPlayerResponse.Content.ReadAsAsync<string>();
-            }
-
             //Join Game
 
-            GameIdModel gameIdModel1 = new GameIdModel
+            GameJoinModel gameJoinModel = new GameJoinModel
             {
                 GameId = gameIdModel.GameId,
-                PlayerId = playerId,
+                PlayerName = "Saad Alvi",
             };
 
             bool flagJoinGame = false;
-            using (var postJoinGameResponse = await _client.PostAsJsonAsync($"/api/Game/JoinGame", gameIdModel1))
+            using (var postJoinGameResponse = await _client.PostAsJsonAsync($"/api/Game/JoinGame", gameJoinModel))
             {
                 Assert.True(postJoinGameResponse.IsSuccessStatusCode);
                 flagJoinGame = await postJoinGameResponse.Content.ReadAsAsync<bool>();
             }
 
             //Start Game
-            GameIdModel gameIdModel2 = new GameIdModel
-            {
-                GameId = gameIdModel.GameId,
-                PlayerId = gameIdModel.PlayerId,
-            };
 
             bool flagStartGame = false;
-            using (var postStartGameResponse = await _client.PostAsJsonAsync($"/api/Game/StartGame", gameIdModel2))
+            using (var postStartGameResponse = await _client.PostAsJsonAsync($"/api/Game/StartGame", gameIdModel))
             {
                 Assert.True(postStartGameResponse.IsSuccessStatusCode);
                 flagStartGame = await postStartGameResponse.Content.ReadAsAsync<bool>();

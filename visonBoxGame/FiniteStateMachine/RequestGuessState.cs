@@ -19,10 +19,6 @@ namespace visonBoxGame.FiniteStateMachine
             var lstCard = game.Cards;
             var card = Deck.GetRandomCard(ref lstCard);
 
-            //Set card values
-            game.LastCardValue = card.Value;
-            game.LastCardPlay = card.Name;
-
             //Increase Score
             if (GetOutCome(player.Guess, card.Value, game.LastCardValue))
             {
@@ -30,7 +26,11 @@ namespace visonBoxGame.FiniteStateMachine
                 game.Result = Constants.Correct;
             }
             else
-                game.Result = Constants.InCorrect; 
+                game.Result = Constants.InCorrect;
+
+            //Set card values
+            game.LastCardValue = card.Value;
+            game.LastCardPlay = card.Name;
 
             //Set Turn Count
             game.TurnCount++;

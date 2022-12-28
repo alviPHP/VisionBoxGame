@@ -51,8 +51,8 @@ namespace visonBoxGame
                     .AllowAnyHeader();
             }));
 
-            services.AddSingleton<IDictionary<Guid, GameModel>>(new Dictionary<Guid, GameModel>());
-            services.AddSingleton<IDictionary<Guid, StateMachine>>(new Dictionary<Guid, StateMachine>());
+            services.AddSingleton<IList<GameModel>>(new List<GameModel>());
+            services.AddSingleton<IList<StateMachine>>(new List<StateMachine>());
 
             IserviceCollectionExtension.AddDataServices(services);
         }

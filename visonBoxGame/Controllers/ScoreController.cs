@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace visonBoxGame.Controllers
 {
@@ -48,7 +49,7 @@ namespace visonBoxGame.Controllers
 
                 //Get score table.
                 var result = _scoreService.GetScoreTable(_gameId);
-                if (result == null || result.Count == 0)
+                if (!result.Any())
                     return NotFound("Recored not found.");
                 return Ok(result);
 
